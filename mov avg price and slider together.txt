@@ -1,0 +1,25 @@
+!pip install yfinance
+!pip install stockstats
+!pip install plotly.express
+import yfinance as yf
+from stockstats import StockDataFrame as sdf
+import matplotlib.pyplot as plt
+import datetime 
+import pandas as pd
+import plotly.express as px
+
+
+def Simple_Moving_Average(company_Ticker):
+    Stock_Name=yf.Ticker(company_Ticker)
+    historic_data = Stock_Name.history('1y','1d',datetime.datetime(2021,2,15),datetime.datetime(2021,5,15))
+    stock=sdf.retype(historic_data)
+    p=stock['close_10_sma']
+    return(p)
+Stock_Name=yf.Ticker('RELIANCE.NS')#pricelinr
+historic_data = Stock_Name.history('1y','1d',datetime.datetime(2021,2,15),datetime.datetime(2021,5,15))
+p=pd.DataFrame(historic_data)
+d=pd.DataFrame(p['Close'])
+c=list(Simple_Moving_Average('RELIANCE.NS'))
+d['Sma']=c
+fig_3 = px.line(d)
+fig_3.show()
